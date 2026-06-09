@@ -1,0 +1,5 @@
+#!/bin/sh
+# Fast pre-commit gate: rustfmt + clippy (mirrors CI), so a commit never lands code
+# CI would reject. The heavier bin/ccq freshness check is on pre-push. Thin wrapper —
+# logic is in the versioned script. Bypass with `git commit --no-verify`.
+exec sh "$(git rev-parse --show-toplevel)/scripts/check-lint.sh"

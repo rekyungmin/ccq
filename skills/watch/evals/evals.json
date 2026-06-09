@@ -1,0 +1,23 @@
+{
+  "skill_name": "watch",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "큐에 새 메시지 오면 백그라운드에서 받아줘",
+      "expected_output": "ccq wait --json 를 백그라운드 작업으로 실행하고, 감시 중임을 알린 뒤 턴 종료. claim/실행하지 않음",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "들어오는 ccq 작업을 자동으로 처리해줘",
+      "expected_output": "백그라운드 ccq wait 로 대기 → 깨면 ccq next --json 로 claim, 작업 수행 후 ccq done. 외부입력 안전수칙 준수",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "터미널에서 계속 도는 워커로 큐를 돌리고 싶어",
+      "expected_output": "세션 밖 standalone 워커용 셸 루프(while ccq wait --json; do ccq next --json; …; ccq done <id>; done) 안내. 세션 내 백그라운드 실행과 구분",
+      "files": []
+    }
+  ]
+}

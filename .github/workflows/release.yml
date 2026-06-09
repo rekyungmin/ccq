@@ -1,0 +1,37 @@
+name: release
+
+# Push a tag like `v0.5.0` to cut a release: build the universal macOS binary and
+# attach it as `ccq` to the GitHub Release. That asset is what `install.sh` (curl|sh)
+# and any Homebrew formula download — it's the single source of truth for users.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write # GITHUB_TOKEN needs this to create a release + upload assets
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add targets
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - name: Build universal binary
+        run: |
+          cargo build --release --target aarch64-apple-darwin
+          cargo build --release --target x86_64-apple-darwin
+          lipo -create -output ccq \
+            target/aarch64-apple-darwin/release/ccq \
+            target/x86_64-apple-darwin/release/ccq
+          file ccq
+          ./ccq version
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" ccq \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes
+          # sha256 printed for the Homebrew formula (if/when you add a tap):
+          shasum -a 256 ccq

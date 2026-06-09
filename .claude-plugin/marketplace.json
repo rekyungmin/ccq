@@ -1,0 +1,17 @@
+{
+  "name": "ccq",
+  "description": "Per-project message queue for Coding Agents (maildir-style, daemonless).",
+  "owner": {
+    "name": "Kyungmin Lee",
+    "email": "rekyungmin@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "ccq",
+      "source": "./",
+      "version": "0.0.1",
+      "category": "workflow",
+      "keywords": ["message-queue", "maildir", "ipc", "cli"]
+    }
+  ]
+}

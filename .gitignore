@@ -1,0 +1,12 @@
+.DS_Store
+*.tmp.*
+
+# Rust build artifacts (Cargo.lock IS committed — this is a binary)
+/target
+
+# Editors / IDEs
+/.idea/
+*.swp
+
+# Claude Code per-machine local settings (a shared .claude/settings.json may be committed)
+.claude/settings.local.json

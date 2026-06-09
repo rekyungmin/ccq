@@ -1,0 +1,3 @@
+# bin/ccq is a committed universal macOS binary. `binary` (= -text -diff) keeps git
+# from EOL-munging or diffing it. Everything else is auto-detected.
+bin/ccq binary

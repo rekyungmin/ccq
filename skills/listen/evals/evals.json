@@ -1,0 +1,23 @@
+{
+  "skill_name": "listen",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/ccq:listen (큐에 2건: 서로 다른 발신자, 파일 생성 지시)",
+      "expected_output": "KST 시각+상대시간·발신자·내용 테이블 렌더 → multiSelect 선택 → 복수 선택 시 plan mode 진입 → 완료분만 ccq --done",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "/ccq:listen (큐 비어있음)",
+      "expected_output": "비어있음 안내 후 종료. 불필요한 도구 호출 없음",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "/ccq:listen clear (큐에 5건)",
+      "expected_output": "5건임을 명시해 AskUserQuestion으로 확인받은 후에만 ccq clear 실행",
+      "files": []
+    }
+  ]
+}

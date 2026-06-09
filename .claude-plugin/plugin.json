@@ -1,0 +1,13 @@
+{
+  "name": "ccq",
+  "description": "Per-project, agent-agnostic message queue — enqueue work from any agent or shell with the ccq CLI, then review/select/run it in a session via /ccq:listen. Daemonless and lockless (maildir-style), a single fast macOS-native binary; English by default, Korean via CCQ_LANG/--lang.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Kyungmin Lee",
+    "email": "rekyungmin@gmail.com"
+  },
+  "homepage": "https://github.com/rekyungmin/ccq",
+  "repository": "https://github.com/rekyungmin/ccq",
+  "license": "MIT",
+  "keywords": ["claude-code", "message-queue", "maildir", "cli", "ipc", "workflow"]
+}

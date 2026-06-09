@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push:
+    branches: [main, "rust-*"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: macos-latest # ccq is macOS-first (proc_pidinfo, kqueue, renameatx_np)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain (pinned by rust-toolchain.toml)
+        run: rustup show
+      - name: Format
+        run: cargo fmt --check
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Test
+        run: cargo test
+
+  universal-binary:
+    runs-on: macos-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add targets
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - name: Build both arches
+        run: |
+          cargo build --release --target aarch64-apple-darwin
+          cargo build --release --target x86_64-apple-darwin
+      - name: lipo universal
+        run: |
+          lipo -create -output ccq-universal \
+            target/aarch64-apple-darwin/release/ccq \
+            target/x86_64-apple-darwin/release/ccq
+          file ccq-universal
+          ./ccq-universal version
+      - name: Committed bin/ccq is a current universal binary
+        run: |
+          # The plugin ships bin/ccq with no build step (SPEC §1, decision #3), so
+          # it must be a 2-arch universal binary whose version matches Cargo.toml.
+          # (Byte-identity isn't asserted — release builds aren't bit-reproducible
+          #  across machines; a version mismatch reliably catches a stale commit.)
+          file bin/ccq | grep -q "2 architectures" || { echo "::error::bin/ccq is not universal"; exit 1; }
+          want=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
+          got=$(./bin/ccq version)
+          [ "$want" = "$got" ] || { echo "::error::bin/ccq is stale ($got != Cargo.toml $want) — rebuild & recommit"; exit 1; }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ccq-universal
+          path: ccq-universal

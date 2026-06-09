@@ -1,0 +1,23 @@
+{
+  "skill_name": "send",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "지금 정리한 리팩토링 작업 목록 중에 auth 모듈 건은 ~/code/kakaoent/webtoon 쪽 세션이 하는 게 맞을 것 같아. 거기로 넘겨줄래?",
+      "expected_output": "ccq -d ~/code/kakaoent/webtoon 으로 자기완결적 지시문 발신, 대기 건수 보고, 수신 측 /ccq:listen 안내",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "이 버그 수정 요청을 pm 프로젝트 큐에 넣어줘. 내용은 'EventLog 파서가 빈 payload에서 NPE 발생, 재현 케이스는 tests/fixtures/empty.json'",
+      "expected_output": "메시지를 절대경로 포함 단일 지시문으로 정리해 ccq -d 로 발신",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "ccq 큐에 뭐가 쌓여있는지 보여줘",
+      "expected_output": "send가 아닌 listen의 영역 — /ccq:listen(peek) 안내 또는 ccq -l 직접 실행. send 스킬이 발신을 시도하면 안 됨",
+      "files": []
+    }
+  ]
+}

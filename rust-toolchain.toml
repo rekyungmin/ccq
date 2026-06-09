@@ -1,0 +1,8 @@
+# Pinned to an exact version (not floating `stable`): the committed universal
+# `bin/ccq` must be reproducible, and the pre-push freshness check rebuilds + diffs
+# it — a floating toolchain would change the bytes on every `rustup update` and
+# force spurious recommits. Bump deliberately (and rebuild bin/ccq) when upgrading.
+[toolchain]
+channel = "1.96.0"
+components = ["clippy", "rustfmt"]
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin"]
