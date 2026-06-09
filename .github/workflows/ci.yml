@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: macos-latest # ccq is macOS-first (proc_pidinfo, kqueue, renameatx_np)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Toolchain (pinned by rust-toolchain.toml)
         run: rustup show
       - name: Format
@@ -23,7 +23,7 @@ jobs:
     runs-on: macos-latest
     needs: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Add targets
         run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
       - name: Build both arches
@@ -47,7 +47,7 @@ jobs:
           want=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
           got=$(./bin/ccq version)
           [ "$want" = "$got" ] || { echo "::error::bin/ccq is stale ($got != Cargo.toml $want) — rebuild & recommit"; exit 1; }
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ccq-universal
           path: ccq-universal
